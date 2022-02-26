@@ -1,4 +1,3 @@
-const http = require('http')
 const app = require('express')()
 const axios = require('axios')
 const PORT = 9999
@@ -34,9 +33,12 @@ app.post('/withParameter/:id', (req, res) => {
       }, 3000);    
 })
 
-app.post('/callwithin/:id', (req, res) => {
+app.post('/callwithin/:id', async(req, res) => {
     const { id } = req.params
-    let response = http.get('http://localhost:9999/withDelay/123')
+    let response = await axios({
+        method: 'post',
+        url: 'http://localhost:9999/withDelay/123',
+      });
     console.log(response);
     res.status(200).send({
         flag: id
